@@ -34,7 +34,7 @@ if [[ "$TYPE" == "notification" ]]; then
   if [[ "$USER_ID" == "56931496" ]]; then
     curl -Ss -X POST "$DISCORD_WEBHOOK" \
       -H "Content-Type: application/json" \
-      -d '{"content": badcop just went live! Come hang out at https://twitch.tv/badcop_"}' 1>&2
+      -d '{"content": "badcop just went live! Come hang out at https://twitch.tv/badcop_"}' 1>&2
   fi
   return $(status_code 204)
 fi
