@@ -31,20 +31,10 @@ printf "\r\n"
 
 if [[ "$TYPE" == "notification" ]]; then
   USER_ID=$(echo "$REQUEST_BODY" | jq -r '.event.broadcaster_user_id')
-  COOLDOWN_EXPIRES_AT=$(echo "$REQUEST_BODY" | jq -r '.event.cooldown_expires_at')
-  IMG=$(echo "$REQUEST_BODY" | jq -r '.event.image.url_4x')
-  TITLE=$(echo "$REQUEST_BODY" | jq -r '.event.title' | sed "s/'/\\&apos\\;/g" | sed "s/</\\&lt\\;/g" | sed "s/>/\\&gt\\;/g" | sed "s/\"/\\&quot\\;/g")
-  STOCK=$(echo "$REQUEST_BODY" | jq -r '.event.is_in_stock')
-  REDEEM_ID=$(echo "$REQUEST_BODY" | jq -r '.event.id')
-  COLOR=$(echo "$REQUEST_BODY" | jq -r '.event.background_color')
-  FILE="data/cooldown_${USER_ID}_${REDEEM_ID}"
-  if [[ "$STOCK" == "true" ]] && [[ "$COOLDOWN_EXPIRES_AT" != "null" ]]; then
-    # stick it in the database
-    printf "%s\n%s\n%s\n%s\n" "${COOLDOWN_EXPIRES_AT}" "${IMG}" "${TITLE}" "${COLOR}" > "$FILE"
-    # publish it to subscribers
-    COOLDOWN=$(component "/cooldowns/${USER_ID}/${REDEEM_ID}" | tr '\n' ' ')
-    printf "event: cooldown\ndata: %s\n\n" "$COOLDOWN" \
-    | publish "$USER_ID"
+  if [[ "$USER_ID" == "56931496" ]]; then
+    curl -Ss -x POST "$DISCORD_WEBHOOK" \
+      -H "Content-Type: application/json" \
+      -d '{"content": badcop just went live! Come hang out at https://twitch.tv/badcop_"}' 1>&2
   fi
   return $(status_code 204)
 fi
