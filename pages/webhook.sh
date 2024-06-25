@@ -31,7 +31,7 @@ printf "\r\n"
 
 if [[ "$TYPE" == "notification" ]]; then
   USER_ID=$(echo "$REQUEST_BODY" | jq -r '.event.broadcaster_user_id')
-  if [[ "$USER_ID" == "56931496" ]]; then
+  if [[ "$USER_ID" == "56931496" ]] || [[ "$USER_ID" == "771248818" ]]; then
     curl -Ss -X POST "$DISCORD_WEBHOOK" \
       -H "Content-Type: application/json" \
       -d '{"content": "badcop just went live! Come hang out at https://twitch.tv/badcop_"}' 1>&2
